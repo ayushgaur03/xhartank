@@ -1,16 +1,19 @@
 var express = require("express");
 var cors = require("cors");
-// var db = require("./database/config");
-var testRouter = require("./routes/test");
+const process = require("process");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 var pitchRouter = require("./routes/pitch.router");
 
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/Xhartank");
+dotenv.config();
+/*
+ * Database Configuration & Configuration
+ */
+mongoose.connect(process.env.DB_LINK);
 
 const app = express();
 
-const port = 4000;
-app.set("port", 4000);
+app.set("port", process.env.PORT);
 
 /*
  * Configuring express to recieve data in JSON format
@@ -27,14 +30,6 @@ app.use(cors());
 /*
  * Router Configuration
  */
-// app.use("/", (req, res, next) => {
-//   return res.send("Hello");
-// });
-
-app.use("/test", testRouter);
-app.use("/pitch", pitchRouter);
-// app.use("/todo", todoRouter);
-// app.use("/sharedrecords", shareRouter);
-// app.use("/auth", authRouter);
+app.use("/pitches", pitchRouter);
 
 module.exports = app;
