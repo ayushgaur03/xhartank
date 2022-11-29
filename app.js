@@ -4,6 +4,7 @@ const process = require("process");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 var pitchRouter = require("./routes/pitch.router");
+var offerRouter = require("./routes/offer.router");
 
 dotenv.config();
 /*
@@ -31,5 +32,6 @@ app.use(cors());
  * Router Configuration
  */
 app.use("/pitches", pitchRouter);
+app.use("/offer", offerRouter);
 
 module.exports = app;
