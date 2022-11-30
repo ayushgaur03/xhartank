@@ -1,0 +1,13 @@
+
+git clone https://gitlab.crio.do/COHORT_ME_BUILDOUT_XHARKTANK_ENROLL_1668411037975/saxenakritika717-ME_BUILDOUT_XHARKTANK.git
+
+cd saxenakritika717-ME_BUILDOUT_XHARKTANK/
+
+
+git remote add ME_BUILDOUT_XHARKTANK_MODULE_BASIC_STUB https://gitlab.crio.do/ME_BUILDOUT_XHARKTANK_stubs/ME_BUILDOUT_XHARKTANK_MODULE_BASIC_STUB.git
+
+git pull ME_BUILDOUT_XHARKTANK_MODULE_BASIC_STUB master --allow-unrelated-histories --no-edit
+
+pip3 install -r assessment/requirements.txt
+
+python3 -m pytest --pspec --disable-pytest-warnings assessment/main.py
