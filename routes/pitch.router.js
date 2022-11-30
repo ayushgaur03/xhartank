@@ -14,4 +14,8 @@ router.get("/:id", (res, req) => {
   pitchController.getPitchById(res, req);
 });
 
+router.post("/:pitch_id/makeOffer", (res, req) => {
+  pitchController.createOfferForPitch(res, req);
+});
+
 module.exports = router;

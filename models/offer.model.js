@@ -4,19 +4,19 @@ const offerSchema = mongoose.Schema(
   {
     investor: {
       type: String,
-      require: true,
+      required: true,
     },
     amount: {
       type: Number,
-      require: true,
+      required: true,
     },
     equity: {
       type: Number,
-      require: true,
+      required: true,
     },
     comment: {
       type: String,
-      require: false,
+      required: false,
     },
   },
   { timestamps: true }

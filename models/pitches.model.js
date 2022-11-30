@@ -4,33 +4,32 @@ const pitchSchema = mongoose.Schema(
   {
     entrepreneur: {
       type: String,
-      require: true,
+      required: true,
     },
     pitchTitle: {
       type: String,
-      require: true,
+      required: true,
     },
     pitchIdea: {
       type: String,
-      require: true,
+      required: true,
     },
     askAmount: {
       type: Number,
-      require: true,
+      required: true,
     },
     equity: {
       type: Number,
-      require: true,
+      required: true,
     },
-    orders: [
+    offers: [
       {
         type: {
-          investor: String,
-          amount: Number,
-          equity: Number,
-          comment: String,
+          investor: { type: String, required: true },
+          amount: { type: Number, required: true },
+          equity: { type: Number, required: true },
+          comment: { type: String, required: false },
         },
-        require: false,
       },
     ],
   },
