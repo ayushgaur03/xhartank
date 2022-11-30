@@ -15,13 +15,13 @@ exports.createPitch = (req, res) => {
 
   exports.createOfferForPitch = (req, res) => {
     const newOffer = new Offer({ ...req.body });
-  
+
     newOffer.save((err, response) => {
       if (err) {
         res.status(400).send("Invalid Request Body");
       }
     });
-  
+
     const queryString = { _id: req.params["pitch_id"] };
     const updateDocument = {
       $push: { offers: newOffer },
@@ -52,18 +52,19 @@ exports.getAllPitches = (req, res) => {
     });
 };
 
-exports.getPitchById = (req, res) => {
+exports.getPitchById = async (req, res) => {
   Pitch.findById(req.params["id"], (err, response) => {
     if (err) {
-      res
-        .status(404)
-        .send("Pitch Not Found");
+      res.status(404).send("Pitch Not Found");
     } else {
-      // const{id:_id, ...response} = response;
-      // console.log(id);
-      res.status(200).send(response);
+      data = response._doc;
+      const id = data._id;
+      delete data._id;
+      delete data.__v;
+      delete data.updatedAt;
+      delete data.createdAt;
+
+      res.status(200).send({ id, ...data });
     }
   });
 };
-
-
