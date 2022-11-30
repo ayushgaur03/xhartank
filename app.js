@@ -10,11 +10,17 @@ dotenv.config();
 /*
  * Database Configuration & Configuration
  */
-mongoose.connect(process.env.DB_LINK);
+
+mongoose
+  .connect("mongodb://localhost:27017/Sharktank")
+  .then(() => console.log("Db connected"))
+  .catch((err) => {
+    console.log(err);
+  });
 
 const app = express();
 
-app.set("port", process.env.PORT);
+app.set("port", 8081);
 
 /*
  * Configuring express to recieve data in JSON format
