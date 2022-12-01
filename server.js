@@ -1,5 +1,5 @@
 // import app from "./app";
-const app = require("./app");
+const app = require("./src/app");
 
 const server = app.listen(app.get("port"), () => {
   console.log(
