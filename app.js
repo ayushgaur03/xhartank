@@ -12,7 +12,7 @@ dotenv.config();
  */
 
 mongoose
-  .connect("mongodb://localhost:27017/Sharktank")
+  .connect("mongodb://localhost:27017/xhartank")
   .then(() => console.log("Db connected"))
   .catch((err) => {
     console.log(err);

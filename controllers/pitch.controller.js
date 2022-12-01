@@ -12,36 +12,50 @@ exports.createPitch = (req, res) => {
       });
     }
   });
+};
 
-  exports.createOfferForPitch = (req, res) => {
-    const newOffer = new Offer({ ...req.body });
+exports.createOfferForPitch = (req, res) => {
+  const newOffer = new Offer({ ...req.body });
 
-    newOffer.save((err, response) => {
-      if (err) {
-        res.status(400).send("Invalid Request Body");
-      }
-    });
+  newOffer.save((err, response) => {
+    if (err) {
+      res.status(400).send("Invalid Request Body");
+    }
+  });
 
-    const queryString = { _id: req.params["pitch_id"] };
-    const updateDocument = {
-      $push: { offers: newOffer },
-    };
-    Pitch.updateOne(queryString, updateDocument, (err, response) => {
-      if (err) {
-        res.status(404).send("Pitch Not Found");
-      } else {
-        res.status(201).send({
-          id: newOffer._id,
-        });
-      }
-    });
+  console.log(newOffer);
+  const { _id: id, ...offerData } = newOffer._doc;
+  console.log(id);
+  const updatedOffer = { id: id, ...offerData };
+  console.log(offerData);
+
+  const queryString = { _id: req.params["pitch_id"] };
+  const updateDocument = {
+    $push: { offers: updatedOffer },
   };
+  Pitch.updateOne(queryString, updateDocument, (err, response) => {
+    if (err) {
+      res.status(404).send("Pitch Not Found");
+    } else {
+      res.status(201).send({
+        id: newOffer._id,
+      });
+    }
+  });
 };
 
 exports.getAllPitches = (req, res) => {
-  Pitch.find()
+  const projectionValues =
+    "entrepreneur pitchTitle pitchIdea askAmount equity offers";
+  Pitch.find({}, projectionValues)
     .sort({ createdAt: -1 })
-    .then((response) => {
+    .then((pitches) => {
+      let response = [];
+
+      pitches.forEach((pitch) => {
+        const { _id: id, ...pitchData } = pitch._doc;
+        response = [...response, { id, ...pitchData }];
+      });
       res.status(200).send(response);
     })
     .catch((err) => {
@@ -53,18 +67,16 @@ exports.getAllPitches = (req, res) => {
 };
 
 exports.getPitchById = async (req, res) => {
-  Pitch.findById(req.params["id"], (err, response) => {
+  const pitchId = req.params["id"];
+  const projectionValues =
+    "entrepreneur pitchTitle pitchIdea askAmount equity offers";
+
+  Pitch.findById(pitchId, projectionValues, (err, pitch) => {
     if (err) {
       res.status(404).send("Pitch Not Found");
     } else {
-      data = response._doc;
-      const id = data._id;
-      delete data._id;
-      delete data.__v;
-      delete data.updatedAt;
-      delete data.createdAt;
-
-      res.status(200).send({ id, ...data });
+      const { _id: id, ...pitchData } = pitch._doc;
+      res.status(200).send({ id, ...pitchData });
     }
   });
 };
