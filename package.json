@@ -4,7 +4,9 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon server.js"
+    "start1": "pm2 start server.js",
+    "stop1":"pm2 stop server.js",
+    "start":"nodemon server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
